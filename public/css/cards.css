@@ -1,0 +1,282 @@
+/* ==========================================================================
+   Cards — the visual centrepiece. Everything scales from --cw (card width).
+   ========================================================================== */
+.card {
+  --c: var(--wild);
+  --c-hi: #3a3d58;
+  --c-lo: #0b0c16;
+  position: relative;
+  width: var(--cw);
+  height: calc(var(--cw) * 1.5);
+  flex: none;
+  border-radius: calc(var(--cw) * 0.12);
+  padding: calc(var(--cw) * 0.055);
+  background: linear-gradient(155deg, #ffffff 0%, #f1f1f7 55%, #d9dae6 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 calc(var(--cw) * -0.018) 0 rgba(0, 0, 0, 0.12) inset,
+    0 calc(var(--cw) * 0.025) 0 #a9abbf,
+    0 calc(var(--cw) * 0.08) calc(var(--cw) * 0.16) calc(var(--cw) * -0.04) rgba(0, 0, 0, 0.6);
+  font-family: var(--font);
+  color: #fff;
+  contain: layout style;
+  transform-style: flat;
+}
+.card[data-color='red'] {
+  --c: var(--red);
+  --c-hi: #ff7d8f;
+  --c-lo: var(--red-d);
+}
+.card[data-color='yellow'] {
+  --c: var(--yellow);
+  --c-hi: #ffe680;
+  --c-lo: var(--yellow-d);
+}
+.card[data-color='green'] {
+  --c: var(--green);
+  --c-hi: #6af0aa;
+  --c-lo: var(--green-d);
+}
+.card[data-color='blue'] {
+  --c: var(--blue);
+  --c-hi: #79b3ff;
+  --c-lo: var(--blue-d);
+}
+
+.card-face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--cw) * 0.075);
+  background:
+    radial-gradient(130% 80% at 25% 10%, var(--c-hi) 0%, transparent 55%),
+    linear-gradient(165deg, var(--c) 30%, var(--c-lo) 100%);
+  box-shadow:
+    0 0 0 calc(var(--cw) * 0.008) rgba(0, 0, 0, 0.18) inset,
+    0 calc(var(--cw) * -0.08) calc(var(--cw) * 0.2) rgba(0, 0, 0, 0.22) inset;
+}
+/* Gloss sweep */
+.card-face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(118deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.1) 26%, transparent 38%, transparent 70%, rgba(255, 255, 255, 0.08) 100%);
+  pointer-events: none;
+}
+
+.card-oval {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 118%;
+  height: 58%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-58deg);
+  background: radial-gradient(ellipse at 40% 35%, #ffffff 0%, #f4f4fa 60%, #dcdde8 100%);
+  box-shadow:
+    0 0 0 calc(var(--cw) * 0.012) rgba(0, 0, 0, 0.12),
+    0 calc(var(--cw) * 0.03) calc(var(--cw) * 0.06) rgba(0, 0, 0, 0.25) inset;
+}
+
+.card-glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--c);
+  font-weight: 900;
+  font-style: italic;
+  font-size: calc(var(--cw) * 0.66);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  -webkit-text-stroke: calc(var(--cw) * 0.03) #14141f;
+  paint-order: stroke fill;
+  text-shadow: calc(var(--cw) * 0.025) calc(var(--cw) * 0.035) 0 rgba(0, 0, 0, 0.32);
+}
+.card-glyph > span {
+  transform: translateX(-2%);
+}
+.card-glyph.is-underlined > span {
+  text-decoration: underline;
+  text-decoration-thickness: calc(var(--cw) * 0.032);
+  text-underline-offset: calc(var(--cw) * 0.025);
+}
+.card-glyph svg {
+  width: 62%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(calc(var(--cw) * 0.02) calc(var(--cw) * 0.03) 0 rgba(0, 0, 0, 0.3));
+}
+.card[data-value='reverse'] .card-glyph svg {
+  width: 80%;
+}
+.card-glyph.is-text {
+  font-size: calc(var(--cw) * 0.5);
+}
+
+.card-corner {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-width: calc(var(--cw) * 0.2);
+  font-weight: 900;
+  font-style: italic;
+  font-size: calc(var(--cw) * 0.22);
+  line-height: 1;
+  color: #fff;
+  -webkit-text-stroke: calc(var(--cw) * 0.018) #14141f;
+  paint-order: stroke fill;
+  text-shadow: 0 calc(var(--cw) * 0.012) 0 rgba(0, 0, 0, 0.35);
+}
+.card-corner svg {
+  width: calc(var(--cw) * 0.2);
+  height: calc(var(--cw) * 0.2);
+  overflow: visible;
+}
+.card-corner.tl {
+  top: calc(var(--cw) * 0.05);
+  left: calc(var(--cw) * 0.06);
+}
+.card-corner.br {
+  bottom: calc(var(--cw) * 0.05);
+  right: calc(var(--cw) * 0.06);
+  transform: rotate(180deg);
+}
+.card-corner.is-underlined {
+  text-decoration: underline;
+  text-decoration-thickness: calc(var(--cw) * 0.018);
+  text-underline-offset: calc(var(--cw) * 0.02);
+}
+
+/* --------------------------------------------------------------- wild cards */
+.card[data-color='wild'] .card-face {
+  background:
+    radial-gradient(120% 70% at 25% 8%, rgba(255, 255, 255, 0.16) 0%, transparent 50%),
+    linear-gradient(165deg, #2a2d44 0%, #121320 60%, #07070d 100%);
+}
+.card[data-color='wild'] .card-oval {
+  background: conic-gradient(from 32deg, var(--red) 0 25%, var(--blue) 0 50%, var(--green) 0 75%, var(--yellow) 0 100%);
+  box-shadow:
+    0 0 0 calc(var(--cw) * 0.035) #fff,
+    0 0 0 calc(var(--cw) * 0.05) rgba(0, 0, 0, 0.3),
+    0 calc(var(--cw) * 0.04) calc(var(--cw) * 0.08) rgba(0, 0, 0, 0.35) inset;
+}
+.card[data-color='wild'] .card-glyph {
+  color: #fff;
+}
+.card[data-value='wild'] .card-glyph {
+  font-size: calc(var(--cw) * 0.24);
+  letter-spacing: 0.02em;
+  transform: rotate(-12deg);
+}
+.card-quads {
+  position: relative;
+  width: 52%;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6%;
+  transform: rotate(-12deg);
+}
+.card-quads i {
+  border-radius: 22%;
+  box-shadow:
+    0 0 0 calc(var(--cw) * 0.02) #14141f,
+    0 calc(var(--cw) * 0.02) 0 calc(var(--cw) * 0.02) rgba(0, 0, 0, 0.35);
+}
+.card-quads i:nth-child(1) {
+  background: var(--red);
+}
+.card-quads i:nth-child(2) {
+  background: var(--blue);
+}
+.card-quads i:nth-child(3) {
+  background: var(--yellow);
+}
+.card-quads i:nth-child(4) {
+  background: var(--green);
+}
+
+/* Chosen colour on a played wild (discard pile) */
+.card[data-chosen]::after {
+  content: '';
+  position: absolute;
+  inset: calc(var(--cw) * -0.05);
+  border-radius: calc(var(--cw) * 0.15);
+  border: calc(var(--cw) * 0.035) solid var(--chosen);
+  box-shadow: 0 0 calc(var(--cw) * 0.25) var(--chosen);
+  pointer-events: none;
+}
+.card[data-chosen='red'] {
+  --chosen: var(--red);
+}
+.card[data-chosen='yellow'] {
+  --chosen: var(--yellow);
+}
+.card[data-chosen='green'] {
+  --chosen: var(--green);
+}
+.card[data-chosen='blue'] {
+  --chosen: var(--blue);
+}
+
+/* ----------------------------------------------------------------- card back */
+.card.is-back .card-face {
+  background:
+    radial-gradient(100% 60% at 50% 50%, rgba(255, 50, 80, 0.12), transparent 70%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 calc(var(--cw) * 0.04), transparent 0 calc(var(--cw) * 0.08)),
+    linear-gradient(165deg, #23243a 0%, #0d0d18 70%, #050509 100%);
+}
+.card.is-back .card-oval {
+  background: radial-gradient(ellipse at 40% 35%, #ff5a6d 0%, var(--red) 45%, var(--red-d) 100%);
+  box-shadow:
+    0 0 0 calc(var(--cw) * 0.03) #fff,
+    0 0 calc(var(--cw) * 0.15) rgba(255, 61, 85, 0.6),
+    0 calc(var(--cw) * 0.04) calc(var(--cw) * 0.08) rgba(0, 0, 0, 0.4) inset;
+}
+.card-logo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: calc(var(--cw) * 0.42);
+  color: var(--yellow);
+  letter-spacing: 0.01em;
+  -webkit-text-stroke: calc(var(--cw) * 0.035) #14141f;
+  paint-order: stroke fill;
+  text-shadow: calc(var(--cw) * 0.02) calc(var(--cw) * 0.035) 0 #14141f;
+  transform: rotate(-20deg);
+}
+
+/* Tiny card backs (opponent fans) drop expensive details */
+.card.is-mini {
+  padding: calc(var(--cw) * 0.07);
+  box-shadow:
+    0 calc(var(--cw) * 0.03) 0 #8e90a8,
+    0 calc(var(--cw) * 0.1) calc(var(--cw) * 0.2) rgba(0, 0, 0, 0.5);
+}
+.card.is-mini .card-face::after,
+.card.is-mini .card-logo {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- 3D flipper */
+.flip {
+  position: relative;
+  width: var(--cw);
+  height: calc(var(--cw) * 1.5);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.flip > .card {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip > .card.is-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
